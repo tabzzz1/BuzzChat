@@ -11,6 +11,7 @@ tailwind
 shadcn
 clerk
 prisma
+Zod
 ## 战役日志
 
 ## 汇报规范

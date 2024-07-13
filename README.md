@@ -10,6 +10,7 @@ React
 tailwind
 shadcn
 clerk
+prisma
 ## 战役日志
 
 ## 汇报规范

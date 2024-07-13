@@ -3,6 +3,7 @@
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod" // 将zod模式转换为hookform验证器
 import { useForm } from "react-hook-form"
+import { FileUpload } from "@/components/file-upload"
 
 import {
   Dialog,
@@ -21,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Button } from "../ui/button"
+import { Button } from "@/components/ui/button"
 
 // 使用zod模式定义表单
 const baseFrom = z.object({
@@ -66,11 +67,26 @@ export const InitialModel = () => {
         {/* 表单区 */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/*  */}
             <div className="space-y-8 px-6">
+              {/* 图片上传区域 */}
               <div className="flex items-center justify-center text-center">
-                请上传图片
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <FileUpload
+                          endpoint="serverImage"
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
+              {/* 命名区域 */}
               <FormField
                 control={form.control}
                 name="name"

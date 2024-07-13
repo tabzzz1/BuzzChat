@@ -11,7 +11,11 @@ tailwind
 shadcn
 clerk
 prisma
+Neno
+React-Hook-Form
 Zod
+uploadthing
+
 ## 战役日志
 
 ## 汇报规范

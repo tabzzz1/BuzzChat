@@ -1,10 +1,5 @@
 "use client"
 
-import * as z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod" // 将zod模式转换为hookform验证器
-import { useForm } from "react-hook-form"
-import { FileUpload } from "@/components/file-upload"
-
 import {
   Dialog,
   DialogContent,
@@ -23,22 +18,22 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { FileUpload } from "@/components/file-upload"
 
-// 使用zod模式定义表单
-const baseFrom = z.object({
-  name: z.string().min(1, {
-    message: "服务器名称不能为空",
-  }),
-  imageUrl: z.string().min(1, {
-    message: "服务器图片不能为空",
-  }),
-})
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod" // 将zod模式转换为hookform验证器
+import { baseForm } from "@/types/server-form.d" // 导入表单模式
+import { useForm } from "react-hook-form"
+import { http } from "@/lib/http"
+import { useRouter } from "next/navigation"
+
 
 export const InitialModel = () => {
+  const router = useRouter()
   // 创建表单
   const form = useForm({
     // 使用zodResolver将zod模式转换为hookform验证器
-    resolver: zodResolver(baseFrom),
+    resolver: zodResolver(baseForm),
     // 设置表单的默认值
     defaultValues: {
       name: "",
@@ -48,9 +43,19 @@ export const InitialModel = () => {
 
   // 从表单中提取方法
   const isLoding = form.formState.isSubmitting
+
   // 提交表单
-  const onSubmit = async (values: z.infer<typeof baseFrom>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof baseForm>) => {
+    // const { name, imageUrl } = values
+    try {
+      await http.post('/servers', values)
+      form.reset() // 重置表单
+      router.refresh() // 刷新页面
+      window.location.reload() // 重新加载页面
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

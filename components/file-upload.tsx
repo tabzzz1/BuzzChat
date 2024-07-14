@@ -43,7 +43,7 @@ export const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
         label: "点击或拖动文件到此处上传",
         button({ ready }) {
           if (ready) return <div>上传文件</div>
-          return "正在上传中.."
+          return "加载中..."
         },
       }}
     />

@@ -16,6 +16,7 @@ React-Hook-Form
 Zod
 uploadthing
 axios
+uuid
 
 ## 战役日志
 

@@ -15,6 +15,7 @@ Neno
 React-Hook-Form
 Zod
 uploadthing
+axios
 
 ## 战役日志
 

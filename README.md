@@ -17,6 +17,7 @@ Zod
 uploadthing
 axios
 uuid
+zudtand
 
 ## 战役日志
 

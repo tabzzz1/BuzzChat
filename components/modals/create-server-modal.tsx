@@ -50,6 +50,7 @@ export const CreateServerModal = () => {
       await http.post("/servers", values)
       form.reset() // 重置表单
       router.refresh() // 刷新页面
+      onClose()
     } catch (error) {
       console.log(error)
     }

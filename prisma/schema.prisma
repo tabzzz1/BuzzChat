@@ -7,7 +7,7 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
-//!
+//! 用户(个人)
 model Profile {
   id       String @id @default(uuid())
   userId   String @unique
@@ -40,13 +40,13 @@ model Server {
 
   @@index([profileId])
 }
-
+//? 成员角色
 enum MemberRole {
   ADMIN
   MODERATOR
   GUEST
 }
-//!
+//! 成员/用户(服务器)
 model Member {
   id   String     @id @default(uuid())
   role MemberRole @default(GUEST)
@@ -63,13 +63,13 @@ model Member {
   @@index([profileId])
   @@index([serverId])
 }
-
+//? 频道类型
 enum ChannelType {
   TEXT
   AUDIO
   VIDEO
 }
-//!
+//! 频道
 model Channel {
   id   String      @id @default(uuid())
   name String

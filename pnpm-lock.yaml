@@ -70,10 +70,10 @@ dependencies:
     version: 2.4.0
   tailwindcss-animate:
     specifier: ^1.0.7
-    version: 1.0.7(tailwindcss@3.4.4)
+    version: 1.0.7(tailwindcss@3.4.6)
   uploadthing:
     specifier: ^6.13.2
-    version: 6.13.2(next@14.2.4)(tailwindcss@3.4.4)
+    version: 6.13.2(next@14.2.4)(tailwindcss@3.4.6)
   uuid:
     specifier: ^10.0.0
     version: 10.0.0
@@ -110,8 +110,8 @@ devDependencies:
     specifier: ^5.16.2
     version: 5.16.2
   tailwindcss:
-    specifier: ^3.4.1
-    version: 3.4.4
+    specifier: ^3.4.6
+    version: 3.4.6
   typescript:
     specifier: ^5
     version: 5.5.3
@@ -1241,7 +1241,7 @@ packages:
       next: 14.2.4(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
       tailwind-merge: 2.4.0
-      uploadthing: 6.13.2(next@14.2.4)(tailwindcss@3.4.4)
+      uploadthing: 6.13.2(next@14.2.4)(tailwindcss@3.4.6)
     transitivePeerDependencies:
       - solid-js
       - svelte
@@ -3723,16 +3723,16 @@ packages:
     resolution: {integrity: sha512-49AwoOQNKdqKPd9CViyH5wJoSKsCDjUlzL8DxuGp3P1FsGY36NJDAa18jLZcaHAUUuTj+JB8IAo8zWgBNvBF7A==}
     dev: false
 
-  /tailwindcss-animate@1.0.7(tailwindcss@3.4.4):
+  /tailwindcss-animate@1.0.7(tailwindcss@3.4.6):
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
-      tailwindcss: 3.4.4
+      tailwindcss: 3.4.6
     dev: false
 
-  /tailwindcss@3.4.4:
-    resolution: {integrity: sha512-ZoyXOdJjISB7/BcLTR6SEsLgKtDStYyYZVLsUtWChO4Ps20CBad7lfJKVDiejocV4ME1hLmyY0WJE3hSDcmQ2A==}
+  /tailwindcss@3.4.6:
+    resolution: {integrity: sha512-1uRHzPB+Vzu57ocybfZ4jh5Q3SdlH7XW23J5sQoM9LhE9eIOlzxer/3XPSsycvih3rboRsvt0QCmzSrqyOYUIA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -3896,7 +3896,7 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: true
 
-  /uploadthing@6.13.2(next@14.2.4)(tailwindcss@3.4.4):
+  /uploadthing@6.13.2(next@14.2.4)(tailwindcss@3.4.6):
     resolution: {integrity: sha512-hrxwOgqKs8siczPloop72drRBiUYaFDHMp45OR/sSAaAbOPyGBmBL88Bi4UWCvgC+aBWCLRxtMEGeoqrfu+OMg==}
     engines: {node: '>=18.13.0'}
     peerDependencies:
@@ -3927,7 +3927,7 @@ packages:
       effect: 3.4.5
       next: 14.2.4(react-dom@18.3.1)(react@18.3.1)
       std-env: 3.7.0
-      tailwindcss: 3.4.4
+      tailwindcss: 3.4.6
     dev: false
 
   /uri-js@4.4.1:

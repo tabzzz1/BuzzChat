@@ -1,18 +1,27 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
 import { ServerHeaderMenuItemProps } from "@/types/server-header-menu-item.d"
+import { ModalStore } from "@/stores/modal-store"
 
 export const ServerHeaderMenuItem = ({
   identity,
   context,
   Icon,
-  iconType
+  iconType,
+  invite,
+  server
 }: ServerHeaderMenuItemProps) => {
   const textColor = iconType ? "text-rose-500 dark:text-rose-400" : "text-indigo-600 dark:text-indigo-400"
+
+  const { onOpen } = ModalStore()
+
   return (
     <>
       {identity && (
-        <DropdownMenuItem className={`${textColor} px-3 py-2 text-sm cursor-pointer`}>
+        <DropdownMenuItem 
+          className={`${textColor} px-3 py-2 text-sm cursor-pointer`}
+          onClick={invite ? () => onOpen("invite", { server }) : undefined}
+        >
           { context }
           <Icon className="h-5 w-5 ml-auto" />
         </DropdownMenuItem>

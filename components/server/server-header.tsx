@@ -1,3 +1,4 @@
+"use client"
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -32,7 +33,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
       </DropdownMenuTrigger>
       {/* 下拉菜单内容 */}
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-slate-400 space-y-[2px]">
-        <ServerHeaderMenuItem identity={isModerator} context="添加新成员" Icon={UserPlus}/>
+        <ServerHeaderMenuItem identity={isModerator} context="添加新成员" Icon={UserPlus} invite={true} server={server}/>
         <ServerHeaderMenuItem identity={isAdmin} context="设置服务器" Icon={Settings}/>
         <ServerHeaderMenuItem identity={isModerator} context="管理成员" Icon={Users}/>
         <ServerHeaderMenuItem identity={isModerator} context="创建新的频道" Icon={PlusCircle}/>

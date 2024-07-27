@@ -9,20 +9,30 @@ export const ServerHeaderMenuItem = ({
   Icon,
   iconType,
   invite,
-  server
+  edit,
+  server,
 }: ServerHeaderMenuItemProps) => {
-  const textColor = iconType ? "text-rose-500 dark:text-rose-400" : "text-indigo-600 dark:text-indigo-400"
+  const textColor = iconType
+    ? "text-rose-500 dark:text-rose-400"
+    : "text-indigo-600 dark:text-indigo-400"
 
   const { onOpen } = ModalStore()
 
   return (
     <>
       {identity && (
-        <DropdownMenuItem 
+        <DropdownMenuItem
           className={`${textColor} px-3 py-2 text-sm cursor-pointer`}
-          onClick={invite ? () => onOpen("invite", { server }) : undefined}
+          onClick={() => {
+            if (invite) {
+              onOpen("invite", { server })
+            }
+            if (edit) {
+              onOpen("editServer", { server })
+            }
+          }}
         >
-          { context }
+          {context}
           <Icon className="h-5 w-5 ml-auto" />
         </DropdownMenuItem>
       )}

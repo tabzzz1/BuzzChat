@@ -1,6 +1,12 @@
 import { Server } from "@prisma/client"
 
-type ModalType = "createServer" | "invite"
+/**
+ * 定义各个模型的类型
+ * 1. 创造服务器
+ * 2. 邀请
+ * 3. 编辑服务器
+ */
+type ModalType = "createServer" | "invite" | "editServer"
 
 interface ModelData {
   server?: Server

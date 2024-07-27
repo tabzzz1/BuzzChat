@@ -1,21 +1,24 @@
+// 定义 ServerWithMembersWithProfile 类型
 type ServerWithMembersWithProfile = Server & {
   members: (Member & { profile: Profile })[]
 }
-interface ServerHeaderMenuItemWithInvite extends BaseServerHeaderMenuItemProps {
-  invite: true;
-  server: ServerWithMembersWithProfile;  // 假设 server 是一个字符串类型，根据实际需要调整
-}
 
-interface ServerHeaderMenuItemWithoutInvite extends BaseServerHeaderMenuItemProps {
-  invite?: false;
-  server?: never;  // 当 invite 不为 true 时，server 属性不应存在
-}
-
+// 定义基本接口类型
 interface BaseServerHeaderMenuItemProps {
-  identity: boolean,
-  context: string,
-  Icon: React.ElementType,
+  identity: boolean
+  context: string
+  Icon: React.ElementType
   iconType?: boolean
+  server?: ServerWithMembersWithProfile
 }
 
-export type ServerHeaderMenuItemProps = ServerHeaderMenuItemWithInvite | ServerHeaderMenuItemWithoutInvite;
+interface ExtendedServerHeaderMenuItemProps extends BaseServerHeaderMenuItemProps {
+  invite?: boolean
+  edit?: boolean
+}
+
+export type ServerHeaderMenuItemProps = ExtendedServerHeaderMenuItemProps & (
+  { invite: true; server: ServerWithMembersWithProfile } |
+  { edit: true; server: ServerWithMembersWithProfile } |
+  { invite?: false; edit?: false; server?: never }
+)

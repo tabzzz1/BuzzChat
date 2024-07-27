@@ -20,7 +20,7 @@ export async function PATCH(
       where: { id: params.serverId, profileId: profile.id },
       data: { inviteCode: uuidv4() },
     });
-    console.log("更新后的服务器数据：", server);  // 添加日志以查看数据
+    // 返回新的服务器信息
     return NextResponse.json(server);
   } catch (error) {
     console.log(error);

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button"
 
 import { Check, Copy } from "lucide-react"
 
+import { Server } from "@prisma/client"
 import { useState } from "react"
 import { ModalStore } from "@/stores"
 import { useOrigin } from "@/hooks/use-origin"
@@ -22,7 +23,6 @@ export const InviteModal = () => {
   // 判断是否打开
   const open = type === "invite" && isOpen
   const { server } = data
-  console.log(server, '@@@@@@@@')
 
   const origin = useOrigin()
   const inviteUrl = `${origin}/invite/${server?.inviteCode}`
@@ -41,20 +41,19 @@ export const InviteModal = () => {
   const [isLoading, setIsLoading] = useState(false)
   const createNewInvite = async () => {
     if (!server || !server.id) {
-      console.error("服务器ID缺失或未定义");
-      return;
+      console.error("服务器ID缺失或未定义")
+      return
     }
     try {
-      setIsLoading(true);
-      const res: { id: string; name: string; imageUrl: string; inviteCode: string; profileId: string; createdAt: Date; updatedAt: Date; } = await http.patch(`/servers/${server.id}/invite-code`);
-      onOpen("invite", { server: res });
+      setIsLoading(true)
+      const res: Server = await http.patch(`/servers/${server.id}/invite-code`)
+      onOpen("invite", { server: res }) // 更新服务器信息后server内容被重新解构
     } catch (error) {
-      console.error("请求错误：", error);
+      console.error("请求错误：", error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
-  
+  }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -76,14 +75,15 @@ export const InviteModal = () => {
               value={inviteUrl}
             />
             <Button size="icon" onClick={onCopy} disabled={isLoading}>
-              {copied 
-                ? <Check className="w-5 h-5" />
-                : <Copy className="w-5 h-5" />
-              }
+              {copied ? (
+                <Check className="w-5 h-5" />
+              ) : (
+                <Copy className="w-5 h-5" />
+              )}
             </Button>
           </div>
-          <Button 
-            className="mt-6 w-full" 
+          <Button
+            className="mt-6 w-full"
             variant="primary"
             disabled={isLoading}
             onClick={createNewInvite}

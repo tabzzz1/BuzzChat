@@ -8,9 +8,11 @@ export const ServerHeaderMenuItem = ({
   context,
   Icon,
   iconType,
+  server,
+
   invite,
   edit,
-  server,
+  manage,
 }: ServerHeaderMenuItemProps) => {
   const textColor = iconType
     ? "text-rose-500 dark:text-rose-400"
@@ -29,6 +31,9 @@ export const ServerHeaderMenuItem = ({
             }
             if (edit) {
               onOpen("editServer", { server })
+            }
+            if (manage) {
+              onOpen("manageMembers", { server })
             }
           }}
         >

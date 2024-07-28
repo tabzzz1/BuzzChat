@@ -5,8 +5,9 @@ import { Server } from "@prisma/client"
  * 1. 创造服务器
  * 2. 邀请
  * 3. 编辑服务器
+ * 4. 管理成员
  */
-type ModalType = "createServer" | "invite" | "editServer"
+type ModalType = "createServer" | "invite" | "editServer" | "manageMembers"
 
 interface ModelData {
   server?: Server
@@ -18,5 +19,3 @@ export interface ModalStoreProps {
   onOpen: (type: ModalType, data?: ModelData) => void
   onClose: () => void
 }
-
-

@@ -1,7 +1,4 @@
-// 定义 ServerWithMembersWithProfile 类型
-type ServerWithMembersWithProfile = Server & {
-  members: (Member & { profile: Profile })[]
-}
+import type { ServerWithMembersWithProfile } from "@/types/server-members-profile"
 
 // 定义基本接口类型
 interface BaseServerHeaderMenuItemProps {
@@ -12,13 +9,17 @@ interface BaseServerHeaderMenuItemProps {
   server?: ServerWithMembersWithProfile
 }
 
-interface ExtendedServerHeaderMenuItemProps extends BaseServerHeaderMenuItemProps {
+interface ExtendedServerHeaderMenuItemProps
+  extends BaseServerHeaderMenuItemProps {
   invite?: boolean
   edit?: boolean
+  manage?: boolean
 }
 
-export type ServerHeaderMenuItemProps = ExtendedServerHeaderMenuItemProps & (
-  { invite: true; server: ServerWithMembersWithProfile } |
-  { edit: true; server: ServerWithMembersWithProfile } |
-  { invite?: false; edit?: false; server?: never }
-)
+export type ServerHeaderMenuItemProps = ExtendedServerHeaderMenuItemProps &
+  (
+    | { invite: true; server: ServerWithMembersWithProfile }
+    | { edit: true; server: ServerWithMembersWithProfile }
+    | { manage: true; server: ServerWithMembersWithProfile }
+    | { invite?: false; edit?: false; manage?: false; server?: never }
+  )

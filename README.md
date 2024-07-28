@@ -18,6 +18,7 @@ uploadthing
 axios
 uuid
 zudtand
+query-string
 
 ## 战役日志
 

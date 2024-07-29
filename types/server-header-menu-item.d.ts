@@ -17,6 +17,7 @@ interface ExtendedServerHeaderMenuItemProps
   manage?: boolean
   createChannel?: boolean
   leaveServer?: boolean
+  deleteServer?: boolean
 }
 
 export type ServerHeaderMenuItemProps = ExtendedServerHeaderMenuItemProps &
@@ -26,12 +27,14 @@ export type ServerHeaderMenuItemProps = ExtendedServerHeaderMenuItemProps &
     | { manage: true; server: ServerWithMembersWithProfile }
     | { createChannel: true; server: ServerWithMembersWithProfile }
     | { leaveServer: true; server: ServerWithMembersWithProfile }
+    | { deleteServer: true; server: ServerWithMembersWithProfile }
     | {
         invite?: false
         edit?: false
         manage?: false
         createChannel?: false
         leaveServer?: false
+        deleteServer?: false
         server?: never
       }
   )

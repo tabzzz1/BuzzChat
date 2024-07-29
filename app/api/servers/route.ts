@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     // 返回服务器
     return NextResponse.json(server)
   } catch (error) {
-    console.log(error)
+    console.log("[SERVER_ID_POST]", error)
     return new NextResponse("Internal Error:", { status: 500 })
   }
 }

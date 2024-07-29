@@ -14,6 +14,7 @@ type ModalType =
   | "manageMembers"
   | "createChannel"
   | "leaveServer"
+  | "deleteServer"
 
 interface ModelData {
   server?: Server

@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand"
 import type { ServerWithMembersWithProfile } from "@/types/server-members-profile"
 
 // 定义基本接口类型
@@ -16,6 +16,7 @@ interface ExtendedServerHeaderMenuItemProps
   edit?: boolean
   manage?: boolean
   createChannel?: boolean
+  leaveServer?: boolean
 }
 
 export type ServerHeaderMenuItemProps = ExtendedServerHeaderMenuItemProps &
@@ -24,5 +25,13 @@ export type ServerHeaderMenuItemProps = ExtendedServerHeaderMenuItemProps &
     | { edit: true; server: ServerWithMembersWithProfile }
     | { manage: true; server: ServerWithMembersWithProfile }
     | { createChannel: true; server: ServerWithMembersWithProfile }
-    | { invite?: false; edit?: false; manage?: false; createChannel?:false ;server?: never }
+    | { leaveServer: true; server: ServerWithMembersWithProfile }
+    | {
+        invite?: false
+        edit?: false
+        manage?: false
+        createChannel?: false
+        leaveServer?: false
+        server?: never
+      }
   )

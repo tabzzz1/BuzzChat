@@ -13,7 +13,8 @@ export const ServerHeaderMenuItem = ({
   invite,
   edit,
   manage,
-  createChannel
+  createChannel,
+  leaveServer
 }: ServerHeaderMenuItemProps) => {
   const textColor = iconType
     ? "text-rose-500 dark:text-rose-400"
@@ -38,6 +39,9 @@ export const ServerHeaderMenuItem = ({
             }
             if(createChannel) {
               onOpen("createChannel", { server })
+            }
+            if(leaveServer) {
+              onOpen("leaveServer", { server })
             }
           }}
         >

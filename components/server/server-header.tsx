@@ -39,7 +39,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         <ServerHeaderMenuItem identity={isModerator} context="创建新的频道" Icon={PlusCircle} createChannel={true} server={server}/>
         { isModerator && <DropdownMenuSeparator />}
         <ServerHeaderMenuItem identity={isAdmin} context="删除服务器" Icon={Trash} iconType={true}/>
-        <ServerHeaderMenuItem identity={!isAdmin} context="退出服务器" Icon={LogOut} iconType={true}/>
+        <ServerHeaderMenuItem identity={!isAdmin} context="退出服务器" Icon={LogOut} iconType={true} leaveServer={true} server={server}/>
       </DropdownMenuContent>
     </DropdownMenu>
   )

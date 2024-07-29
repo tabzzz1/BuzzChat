@@ -14,7 +14,7 @@ import {
   Trash,
   LogOut
 } from "lucide-react"
-import { ServerHeaderMenuItem } from "@/components/server/server-header-menu-item"
+import { ServerHeaderMenuItem } from "@/components/server/server-header/server-header-menu-item"
 
 import { ServerHeaderProps } from "@/types/server-header.d"
 import { MemberRole } from "@prisma/client"

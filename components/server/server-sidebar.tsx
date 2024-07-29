@@ -1,11 +1,34 @@
-import { ServerHeader } from "@/components/server/server-header"
+import { ServerHeader } from "@/components/server/server-header/server-header"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { ServerSearch } from "@/components/server/server-search"
 
-import { ChannelType } from "@prisma/client"
+import {
+  Hash,
+  Mic,
+  Video,
+  ShieldCheck,
+  ShieldAlert,
+  ShieldEllipsis,
+} from "lucide-react"
+
+import { ChannelType, MemberRole } from "@prisma/client"
 import type { ServerSidebarProps } from "@/types/server-sidebar.d"
 
 import { currentProfile } from "@/lib/current-profile"
 import { redirect } from "next/navigation"
 import { db } from "@/lib/db"
+
+const iconMap = {
+  [ChannelType.TEXT]: <Hash className="mr-2 h-4 w-4" />,
+  [ChannelType.AUDIO]: <Mic className="mr-2 h-4 w-4" />,
+  [ChannelType.VIDEO]: <Video className="mr-2 h-4 w-4" />,
+}
+
+const roleIconMap = {
+  [MemberRole.ADMIN]: <ShieldCheck className="mr-2 h-4 w-4 text-rose-500" />,
+  [MemberRole.MODERATOR]: <ShieldAlert className="mr-2 h-4 w-4 text-purple-500" />,
+  [MemberRole.GUEST]: <ShieldEllipsis className="mr-2 h-4 w-4 text-green-500" />,
+}
 
 export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
   const profile = await currentProfile()
@@ -47,15 +70,61 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
     (member) => member.profileId !== profile.id
   )
 
-  if(!server) {
-    return redirect('/')
+  if (!server) {
+    return redirect("/")
   }
   // 确认当前用户的role
-  const role = server.members.find((member) => member.profileId === profile.id)?.role
+  const role = server.members.find(
+    (member) => member.profileId === profile.id
+  )?.role
 
   return (
     <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
-      <ServerHeader server={server} role={role}/>
+      <ServerHeader server={server} role={role} />
+      <ScrollArea className="flex-1 px-3">
+        <div className="mt-2">
+          <ServerSearch 
+            searchData={[
+              {
+                label: "文本频道",
+                type: "channel",
+                data: textChannels?.map((channel) => ({
+                  icon: iconMap[channel.type],
+                  name: channel.name,
+                  id: channel.id,
+                })),
+              },
+              {
+                label: "语音频道",
+                type: "channel",
+                data: audioChannels?.map((channel) => ({
+                  icon: iconMap[channel.type],
+                  name: channel.name,
+                  id: channel.id,
+                })),
+              },
+              {
+                label: "视频频道",
+                type: "channel",
+                data: videoChannels?.map((channel) => ({
+                  icon: iconMap[channel.type],
+                  name: channel.name,
+                  id: channel.id,
+                })),
+              },
+              {
+                label: "成员Members",
+                type: "member",
+                data: members?.map((member) => ({
+                  icon: roleIconMap[member.role],
+                  name: member.profile.name,
+                  id: member.id,
+                })),
+              },
+            ]} 
+          />
+        </div>
+      </ScrollArea>
     </div>
   )
 }

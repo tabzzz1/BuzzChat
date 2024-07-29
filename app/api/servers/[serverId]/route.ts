@@ -23,7 +23,7 @@ export async function PATCH(
     // 返回新的服务器信息
     return NextResponse.json(server);
   } catch (error) {
-    console.log(error);
+    console.log("[SERVER_ID_PATCH]", error);
     return new NextResponse("Internal Error:", { status: 500 });
   }
 }

@@ -1,6 +1,9 @@
 import { ServerHeader } from "@/components/server/server-header/server-header"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ServerSearch } from "@/components/server/server-search"
+import { Separator } from "@/components/ui/separator"
+import { ServerSection } from "@/components/server/server-section"
+import { ServerChannel } from "@/components/server/server-channel"
 
 import {
   Hash,
@@ -26,8 +29,12 @@ const iconMap = {
 
 const roleIconMap = {
   [MemberRole.ADMIN]: <ShieldCheck className="mr-2 h-4 w-4 text-rose-500" />,
-  [MemberRole.MODERATOR]: <ShieldAlert className="mr-2 h-4 w-4 text-purple-500" />,
-  [MemberRole.GUEST]: <ShieldEllipsis className="mr-2 h-4 w-4 text-green-500" />,
+  [MemberRole.MODERATOR]: (
+    <ShieldAlert className="mr-2 h-4 w-4 text-purple-500" />
+  ),
+  [MemberRole.GUEST]: (
+    <ShieldEllipsis className="mr-2 h-4 w-4 text-green-500" />
+  ),
 }
 
 export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
@@ -82,8 +89,9 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
     <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
       <ServerHeader server={server} role={role} />
       <ScrollArea className="flex-1 px-3">
+        {/* 搜索 */}
         <div className="mt-2">
-          <ServerSearch 
+          <ServerSearch
             searchData={[
               {
                 label: "文本频道",
@@ -121,9 +129,68 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                   id: member.id,
                 })),
               },
-            ]} 
+            ]}
           />
         </div>
+        {/* 分隔线 */}
+        <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+        {/* 文本频道展示栏 */}
+        {!!textChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="文本频道"
+              type="channels"
+              channelType={ChannelType.TEXT}
+              memberRole={role}
+            />
+            {textChannels.map((channel) => (
+              <ServerChannel 
+                key={channel.id}
+                channel={channel}
+                server={server}
+                role={role}
+              />
+            ))}
+          </div>
+        )}
+        {/* 语音频道展示栏 */}
+        {!!audioChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="语音频道"
+              type="channels"
+              channelType={ChannelType.AUDIO}
+              memberRole={role}
+            />
+            {audioChannels.map((channel) => (
+              <ServerChannel 
+                key={channel.id}
+                channel={channel}
+                server={server}
+                role={role}
+              />
+            ))}
+          </div>
+        )}
+        {/* 视频频道展示栏 */}
+        {!!videoChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="视频频道"
+              type="channels"
+              channelType={ChannelType.VIDEO}
+              memberRole={role}
+            />
+            {videoChannels.map((channel) => (
+              <ServerChannel 
+                key={channel.id}
+                channel={channel}
+                server={server}
+                role={role}
+              />
+            ))}
+          </div>
+        )}
       </ScrollArea>
     </div>
   )

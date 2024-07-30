@@ -8,8 +8,9 @@ export const baseForm = z.object({
     .min(1, {
       message: "频道名称不能为空",
     })
-    .refine((name) => name !== "general", {
-      message: "频道名称不能为'general'",
+    /* 非法处理 */
+    .refine((name) => name !== "默认", {
+      message: "频道名称不能为'默认'",
     }),
   type: z.nativeEnum(ChannelType),
 })

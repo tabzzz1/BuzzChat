@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
+import { useEffect } from "react"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod" // 将zod模式转换为hookform验证器
 import { baseForm } from "@/types/channel-from.d" // 导入表单模式
@@ -36,9 +37,10 @@ import { ChannelType } from "@prisma/client"
 import qs from "query-string"
 
 export const CreateChannelModal = () => {
-  const { isOpen, onClose, type } = ModalStore()
+  const { isOpen, onClose, type, data } = ModalStore()
   const router = useRouter()
   const params = useParams()
+  const { channelType } = data
   // 创建表单
   const form = useForm({
     // 使用zodResolver将zod模式转换为hookform验证器
@@ -46,7 +48,7 @@ export const CreateChannelModal = () => {
     // 设置表单的默认值
     defaultValues: {
       name: "",
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     },
   })
   // 从表单中提取方法
@@ -74,6 +76,16 @@ export const CreateChannelModal = () => {
   }
   // 判断是否打开
   const open = type === "createChannel" && isOpen
+
+  // 判断频道类型，如果没有的话默认为TEXT
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType)
+    } else {
+      form.setValue("type", ChannelType.TEXT)
+    }
+  }, [channelType, form])
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">

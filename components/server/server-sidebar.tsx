@@ -198,6 +198,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             </div>
           </div>
         )}
+        {/* 成员列表展示栏 */}
         {!!members?.length && (
           <div className="mb-2">
             <ServerSection

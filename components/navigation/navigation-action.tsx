@@ -5,8 +5,8 @@ import { Plus } from "lucide-react"
 import { ModalStore } from "@/stores"
 
 export const NavigationAction = () => {
+  // 添加一个服务器按钮
   const { onOpen } = ModalStore()
-
   return (
     <div>
       <ActionTooltip side="right" align="center" label="添加一个服务器">

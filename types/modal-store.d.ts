@@ -1,4 +1,4 @@
-import { ChannelType, Server } from "@prisma/client"
+import { ChannelType, Server, Channel } from "@prisma/client"
 
 /**
  * 定义各个模型的类型
@@ -15,9 +15,12 @@ type ModalType =
   | "createChannel"
   | "leaveServer"
   | "deleteServer"
+  | "deleteChannel"
+  | "editChannel"
 
 interface ModelData {
   server?: Server,
+  channel?: Channel,
   channelType?: ChannelType
 }
 export interface ModalStoreProps {

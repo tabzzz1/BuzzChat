@@ -7,6 +7,7 @@ import { ChannelType, MemberRole } from "@prisma/client"
 import { ServerChannelProps } from "@/types/server-channel.d"
 import { useRouter, useParams } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { ModalStore } from "@/stores/modal-store"
 
 const iconMap = {
   [ChannelType.TEXT]: Hash,
@@ -19,6 +20,7 @@ export const ServerChannel = ({
   server,
   role,
 }: ServerChannelProps) => {
+  const { onOpen } = ModalStore()
   const router = useRouter()
   const params = useParams()
 
@@ -49,15 +51,15 @@ export const ServerChannel = ({
       {channel.name !== "general" && role !== MemberRole.GUEST && (
         <div className="ml-auto flex items-center gap-x-2">
           <ActionTooltip label="编辑">
-            <Edit 
-              className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" 
-              onClick={() => {}}
+            <Edit
+              className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
+              onClick={() => onOpen("editChannel", { server, channel })}
             />
           </ActionTooltip>
           <ActionTooltip label="删除">
-            <Trash 
-              className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" 
-              onClick={() => {}}
+            <Trash
+              className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
+              onClick={() => onOpen("deleteChannel", { server, channel })}
             />
           </ActionTooltip>
         </div>

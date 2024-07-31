@@ -14,24 +14,32 @@ import { useState } from "react"
 import { ModalStore } from "@/stores"
 import { http } from "@/lib/http"
 import { useRouter } from "next/navigation"
+import qs from "query-string"
 
-export const DeleteServerModal = () => {
+export const DeleteChannelModal = () => {
   const { isOpen, onClose, type, data } = ModalStore()
   const router = useRouter()
   // 判断是否打开
-  const open = type === "deleteServer" && isOpen
-  const { server } = data
+  const open = type === "deleteChannel" && isOpen
+  const { server, channel } = data
 
   const [isLoading, setIsLoading] = useState(false)
 
-  // 删除服务器
+  // 删除频道
   const onDelete = async () => {
     setIsLoading(true)
+    const url = qs.stringifyUrl({
+      url: `/channels/${channel?.id}`,
+      query: {
+        serverId: server?.id,
+      },
+    })
     try {
-      await http.delete(`/servers/${server?.id}`)
+      await http.delete(url)
       onClose()
       router.refresh()
-      router.push("/")
+      // 跳转至服务器首页
+      router.push(`/servers/${server?.id}`)
     } catch (error) {
       console.log(error)
     } finally {
@@ -43,12 +51,16 @@ export const DeleteServerModal = () => {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-center text-2xl">删除服务器</DialogTitle>
+          <DialogTitle className="text-center text-2xl">删除频道</DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
             您确定要这么做吗？
             <span className="font-semibold text-rose-500">此操作不可逆！</span>
             <br />
-            <span className="font-semibold text-indigo-500">{server?.name}</span>将会被删除！
+            名为
+            <span className="font-semibold text-indigo-500">
+              {channel?.name}
+            </span>
+            的频道将会被删除！
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="bg-gray-100 px-6 py-4">

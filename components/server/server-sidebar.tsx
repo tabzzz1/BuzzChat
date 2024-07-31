@@ -4,6 +4,7 @@ import { ServerSearch } from "@/components/server/server-search"
 import { Separator } from "@/components/ui/separator"
 import { ServerSection } from "@/components/server/server-section"
 import { ServerChannel } from "@/components/server/server-channel"
+import { ServerMember } from "@/components/server/server-member"
 
 import {
   Hash,
@@ -143,14 +144,16 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               channelType={ChannelType.TEXT}
               memberRole={role}
             />
-            {textChannels.map((channel) => (
-              <ServerChannel 
-                key={channel.id}
-                channel={channel}
-                server={server}
-                role={role}
-              />
-            ))}
+            <div className="space-y-[2px]">
+              {textChannels.map((channel) => (
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  server={server}
+                  role={role}
+                />
+              ))}
+            </div>
           </div>
         )}
         {/* 语音频道展示栏 */}
@@ -162,14 +165,16 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               channelType={ChannelType.AUDIO}
               memberRole={role}
             />
-            {audioChannels.map((channel) => (
-              <ServerChannel 
-                key={channel.id}
-                channel={channel}
-                server={server}
-                role={role}
-              />
-            ))}
+            <div className="space-y-[2px]">
+              {audioChannels.map((channel) => (
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  server={server}
+                  role={role}
+                />
+              ))}
+            </div>
           </div>
         )}
         {/* 视频频道展示栏 */}
@@ -181,14 +186,35 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               channelType={ChannelType.VIDEO}
               memberRole={role}
             />
-            {videoChannels.map((channel) => (
-              <ServerChannel 
-                key={channel.id}
-                channel={channel}
-                server={server}
-                role={role}
-              />
-            ))}
+            <div className="space-y-[2px]">
+              {videoChannels.map((channel) => (
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  server={server}
+                  role={role}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!members?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="成员列表"
+              type="members"
+              memberRole={role}
+              server={server}
+            />
+            <div className="space-y-[2px]">
+              {members.map((member) => (
+                <ServerMember 
+                  key={member.id} 
+                  member={member}
+                  server={server}
+                />
+              ))}
+            </div>
           </div>
         )}
       </ScrollArea>

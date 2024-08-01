@@ -8,6 +8,7 @@ import { ServerChannelProps } from "@/types/server-channel.d"
 import { useRouter, useParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { ModalStore } from "@/stores/modal-store"
+import type { ModalType } from "@/types/modal-store"
 
 const iconMap = {
   [ChannelType.TEXT]: Hash,
@@ -24,12 +25,22 @@ export const ServerChannel = ({
   const router = useRouter()
   const params = useParams()
 
-  const Icon = iconMap[channel.type]
+  const Icon = iconMap[channel.type] 
+
+  // 处理点击频道事件
+  const handleChannelClick = () => {
+    router.push(`/servers/${params?.serverId}/channels/${channel.id}`)
+  }
+  // 处理事件
+  const handleActionClick = (e: React.MouseEvent, action: ModalType) => {
+    e.stopPropagation()
+    onOpen(action, { server, channel })
+  }
   // 无限混乱的tailwindCss
   // 用cn拼接的原因是：判断当前处于的频道并为其添加相应的样式区分
   return (
     <button
-      onClick={() => {}}
+      onClick={handleChannelClick}
       className={cn(
         "group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1",
         params?.channelId === channel.id && "bg-zinc-700/20 dark:bg-zinc-700"
@@ -53,13 +64,13 @@ export const ServerChannel = ({
           <ActionTooltip label="编辑">
             <Edit
               className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
-              onClick={() => onOpen("editChannel", { server, channel })}
+              onClick={(e) => handleActionClick(e, "editChannel")}
             />
           </ActionTooltip>
           <ActionTooltip label="删除">
             <Trash
               className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
-              onClick={() => onOpen("deleteChannel", { server, channel })}
+              onClick={(e) => handleActionClick(e, "deleteChannel")}
             />
           </ActionTooltip>
         </div>

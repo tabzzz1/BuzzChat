@@ -7,7 +7,7 @@ import { ChannelType, Server, Channel } from "@prisma/client"
  * 3. 编辑服务器
  * 4. 管理成员
  */
-type ModalType =
+export type ModalType =
   | "createServer"
   | "invite"
   | "editServer"

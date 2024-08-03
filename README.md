@@ -21,6 +21,9 @@ uuid
 zudtand
 query-string
 
+socket.io
+socket.io-client
+
 ## 战役日志
 
 ## 汇报规范

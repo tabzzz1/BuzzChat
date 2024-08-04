@@ -59,7 +59,7 @@ export const MessageFileModal = () => {
       })
       form.reset() // 重置表单
       router.refresh() // 刷新页面
-      onClose() // 关闭模态框
+      handleClose() // 关闭模态框
     } catch (error) {
       console.log(error)
     }

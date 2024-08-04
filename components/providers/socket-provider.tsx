@@ -1,11 +1,10 @@
 "use client"
 
-import type { SocketContextType } from "@/types/socket/socket-context"
 import { io as ClientIo } from "socket.io-client"
 
-import { useEffect, useState, useContext, createContext } from "react"
+import { useEffect, useState } from "react"
 
-import { useSocket, useBulidSocketContext } from "@/hooks/use-socket"
+import { useBulidSocketContext } from "@/hooks/use-socket"
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState(null)

@@ -31,6 +31,7 @@ socket.io-client
 1. 在`server-section`中，添加频道的逻辑不合适，直接从文本频道的添加项就可以直接添加语音频道，后续要进行优化
 2. `server-channel`和`server-member`中图标使用方式不一致，后续可以重构以下，统一标准
 3. `*-modal`中有些存在焦点默认全选相应文字，后续要进行优化
+4. 探寻将`@pages/api/socket/io.ts`的服务器内容迁移至`@/app/api/socket/io/route.ts`
 
 ## 解甲归田
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { Form, FormField, FormControl, FormItem } from "@/components/ui/form"
+import { EmojiPicker } from "@/components/emoji-picker"
 import { Input } from "@/components/ui/input"
 import { Plus, Smile } from "lucide-react"
 
@@ -12,6 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { http } from "@/lib/http"
 import qs from "query-string"
 import { ModalStore } from "@/stores"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   content: z.string().min(1, "内容不能为空"),
@@ -19,6 +22,7 @@ const formSchema = z.object({
 
 export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
   const { onOpen } = ModalStore()
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,13 +40,17 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
       })
       // 发送消息
       await http.post(url, values)
+      form.reset()
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
-    // 在发送消息后，焦点仍然在输入框中
-    // form.reset()
-    // form.setFocus("content")
   }
+  useEffect(() => {
+    if (!isLoading) {
+      form.setFocus("content")
+    }
+  }, [isLoading, form])
 
   return (
     <Form {...form}>
@@ -54,6 +62,7 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
             <FormItem>
               <FormControl>
                 <div className="relative p-4 pb-6">
+                  {/* 发送附件功能按钮 */}
                   <button
                     type="button"
                     onClick={() => onOpen("messageFile", { apiUrl, query })}
@@ -69,8 +78,13 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     }`}
                     {...field}
                   />
+                  {/* 表情按钮 */}
                   <div className="absolute top-7 right-8">
-                    <Smile />
+                    <EmojiPicker
+                      onChange={(emoji: any) =>
+                        field.onChange(`${field.value}${emoji}`)
+                      }
+                    />
                   </div>
                 </div>
               </FormControl>

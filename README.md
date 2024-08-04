@@ -24,6 +24,10 @@ query-string
 socket.io
 socket.io-client
 
+@emoji-mart/data
+@emoji-mart/react
+emoji-mart
+
 ## 战役日志
 
 ## 汇报规范

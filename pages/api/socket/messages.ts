@@ -10,7 +10,7 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" })
   }
-
+  // 处理POST请求
   try {
     const profile = await currentProfilePages(req)
     if (!profile) {

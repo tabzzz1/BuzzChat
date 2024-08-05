@@ -54,7 +54,8 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      {/* 禁用表单填充 */}
+      <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
         <FormField
           control={form.control}
           name="content"

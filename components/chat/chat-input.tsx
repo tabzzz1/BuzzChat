@@ -5,7 +5,7 @@ import { EmojiPicker } from "@/components/emoji-picker"
 import { Input } from "@/components/ui/input"
 import { Plus, Smile } from "lucide-react"
 
-import { ChatInputProps } from "@/types/chat-input"
+import { ChatInputProps } from "@/types/chat/chat-input"
 
 import { useForm } from "react-hook-form"
 import * as z from "zod"

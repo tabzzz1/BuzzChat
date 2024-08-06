@@ -2,7 +2,7 @@ import { MobileToggle } from "@/components/mobile-toggle"
 import { SocketStatus } from "@/components/socket-status"
 import { Hash } from "lucide-react"
 
-import { ChatHeaderProps } from "@/types/chat-header"
+import { ChatHeaderProps } from "@/types/chat/chat-header"
 import { UserAvatar } from "@/components/user-avatar"
 
 export const ChatHeader = ({

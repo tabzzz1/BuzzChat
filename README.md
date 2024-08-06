@@ -28,6 +28,8 @@ socket.io-client
 @emoji-mart/react
 emoji-mart
 
+react-query
+
 ## 战役日志
 
 ## 汇报规范

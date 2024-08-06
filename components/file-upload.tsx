@@ -7,6 +7,7 @@ import "@uploadthing/react/styles.css"
 import { FileIcon, X } from "lucide-react"
 import Image from "next/image"
 
+// 文件下载
 export const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
   const fileType = value?.split(".").pop()
   if (value && fileType !== "pdf") {

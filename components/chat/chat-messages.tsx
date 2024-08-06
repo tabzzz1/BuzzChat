@@ -1,8 +1,11 @@
 "use client"
 
 import { ChatWelcome } from "@/components/chat/chat-welcome"
+import { Fragment } from "react"
 
 import { ChatMessagesProps } from "@/types/chat/chat-messages"
+import {MessageWithMemberWithProfile} from "@/types/message-member-profile"
+
 import { useChatQuery } from "@/hooks/use-chat-query"
 import { Loader2, ServerCrash } from "lucide-react"
 
@@ -56,12 +59,23 @@ export const ChatMessages = ({
 
   return (
     <div className="flex-1 flex flex-col py-4 overflow-y-auto">
-      123
       <div className="flex-1" />
       <ChatWelcome 
         name={name}
         type={type}
       />
+      {/* 渲染消息 */}
+      <div className="flex flex-col-reverse mt-auto">
+        {data?.pages?.map((group, item) => (
+          <Fragment key={item}>
+            {group.items.map((message: MessageWithMemberWithProfile) => (
+              <div key={message.id}>
+                {message.content}
+              </div>
+            ))}
+          </Fragment>
+        ))}
+      </div>
     </div>
   )
 }

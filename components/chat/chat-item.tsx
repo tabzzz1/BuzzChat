@@ -63,7 +63,17 @@ export const ChatItem = ({
 
   const isLoading = form.formState.isSubmitting
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+    try {
+      const url = qs.stringifyUrl({
+        url: `${socketUrl}/${id}`,
+        query: socketQuery,
+      })
+      await http.patch(url, values)
+      form.reset()
+      setIsEditing(false)
+    } catch (error) {
+      console.log(error)
+    }
   }
   useEffect(() => {
     form.reset({ content: content })

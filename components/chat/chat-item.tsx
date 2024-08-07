@@ -24,6 +24,7 @@ import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { http } from "@/lib/http"
 import qs from "query-string"
+import { ModalStore } from "@/stores/modal-store"
 
 const roleIconMap = {
   [MemberRole.ADMIN]: <ShieldCheck className="mr-2 h-4 w-4 text-rose-500" />,
@@ -51,6 +52,8 @@ export const ChatItem = ({
   socketUrl,
   socketQuery,
 }: ChatItemProps) => {
+  const { onOpen } = ModalStore()
+
   const [isEditing, setIsEditing] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
@@ -223,7 +226,10 @@ export const ChatItem = ({
           )}
           <ActionTooltip label="删除">
             <Trash
-              onClick={() => setIsDeleting(true)}
+              onClick={() => onOpen("deleteMessage", {
+                apiUrl: `${socketUrl}/${id}`,
+                query: socketQuery,
+              })}
               className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
             />
           </ActionTooltip>

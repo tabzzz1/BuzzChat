@@ -129,7 +129,7 @@ export default async function handler(
     }
 
     //! 消息手动删除/编辑时，需要更新频道的最后消息
-    const updateKey = `chat:${channelId}:messages:${req.method.toLowerCase()}`
+    const updateKey = `chat:${serverId}:${channelId}:messages:update`
     res?.socket?.server?.io.emit(updateKey, message)
 
     return res.status(200).json(message)

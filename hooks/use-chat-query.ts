@@ -1,9 +1,10 @@
+import { ChatQueryProps } from "@/types/chat/chat-query"
+
 import qs from "query-string"
 import { useInfiniteQuery } from "@tanstack/react-query"
 
 import { useSocket } from "@/hooks/use-socket"
 
-import { ChatQueryProps } from "@/types/chat/chat-query"
 
 export const useChatQuery = ({
   queryKey,

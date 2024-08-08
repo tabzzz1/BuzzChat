@@ -8,8 +8,11 @@ import { Loader2, ServerCrash } from "lucide-react"
 import { ChatMessagesProps } from "@/types/chat/chat-messages"
 import { MessageWithMemberWithProfile } from "@/types/message-member-profile"
 
-import { useChatQuery } from "@/hooks/use-chat-query"
 import { formatDate } from "@/utils/format-date"
+import { useChatQuery } from "@/hooks/use-chat-query"
+import { useChatSocket } from "@/hooks/use-chat-socket"
+
+import { useEffect, useRef } from "react"
 
 export const ChatMessages = ({
   name,
@@ -22,7 +25,11 @@ export const ChatMessages = ({
   paramValue,
   type,
 }: ChatMessagesProps) => {
-  const queryKey = `chat:${chatId}`
+  //* chatId 为 channelId
+  const { serverId, channelId } = socketQuery
+  const queryKey = `chat:${serverId}:${channelId}`
+  const addKey = `chat:${serverId}:${channelId}:messages:add`
+  const updateKey = `chat:${serverId}:${channelId}:messages:update`
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
@@ -31,6 +38,18 @@ export const ChatMessages = ({
       paramKey,
       paramValue,
     })
+
+  useChatSocket({ queryKey, addKey, updateKey })
+
+  // const messagesEndRef = useRef<HTMLDivElement>(null)
+  // const scrollToBottom = () => {
+  //   if (messagesEndRef.current) {
+  //     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  //   }
+  // }
+  // useEffect(() => {
+  //   scrollToBottom()
+  // }, [data])
 
   if (status === "pending") {
     return (
@@ -79,6 +98,7 @@ export const ChatMessages = ({
             ))}
           </Fragment>
         ))}
+        {/* <div ref={messagesEndRef} /> */}
       </div>
     </div>
   )

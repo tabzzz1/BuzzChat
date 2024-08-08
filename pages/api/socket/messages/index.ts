@@ -81,6 +81,8 @@ export default async function handler(
       }
     })
 
+
+    //! 频道收到新消息时，通过socket.io发送消息
     const channelKey = `chat:${serverId}:${channelId}:messages`
     res?.socket?.io?.to(channelKey).emit(channelKey, message)
 

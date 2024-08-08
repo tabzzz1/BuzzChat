@@ -6,6 +6,7 @@ import { ActionTooltip } from "@/components/action-tooltip"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast"
 import {
   ShieldCheck,
   ShieldAlert,
@@ -25,6 +26,7 @@ import { cn } from "@/lib/utils"
 import { http } from "@/lib/http"
 import qs from "query-string"
 import { ModalStore } from "@/stores/modal-store"
+import { useRouter, useParams } from "next/navigation"
 
 const roleIconMap = {
   [MemberRole.ADMIN]: <ShieldCheck className="mr-2 h-4 w-4 text-rose-500" />,
@@ -53,6 +55,9 @@ export const ChatItem = ({
   socketQuery,
 }: ChatItemProps) => {
   const { onOpen } = ModalStore()
+  const router = useRouter()
+  const params = useParams()
+  const { toast } = useToast()
 
   const [isEditing, setIsEditing] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -63,7 +68,6 @@ export const ChatItem = ({
       content: content,
     },
   })
-
   const isLoading = form.formState.isSubmitting
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -93,6 +97,20 @@ export const ChatItem = ({
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
+  // 处理成员信息点击跳转私聊窗口
+  const handleClickMember = () => {
+    // 如果是自己则不跳转
+    if(member.id === currentMember.id) {
+      toast({
+        title: "无法选择自己",
+        description: "抱歉，您不能选择与自己进行私聊，请选择其他用户",
+      })
+      return
+    }
+    // 跳转到私聊窗口
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+  }
+
   const isAdmin = currentMember.role === MemberRole.ADMIN
   const isModerator = currentMember.role === MemberRole.MODERATOR
   const isSelf = currentMember.id === member.id
@@ -108,14 +126,21 @@ export const ChatItem = ({
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
       <div className="group flex gap-x-2 items-start w-full">
         {/* 头像 */}
-        <div className="cursor-pointer hover:drop-shadow-md transition">
+        <div 
+          onClick={handleClickMember}
+          className="cursor-pointer hover:drop-shadow-md transition"
+        >
           <UserAvatar src={member.profile.imageUrl} />
         </div>
+        {/* 信息区域 */}
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
               {/* 名字 */}
-              <p className="font-semibold text-sm hover:underline cursor-pointer mr-1">
+              <p 
+                onClick={handleClickMember}
+                className="font-semibold text-sm hover:underline cursor-pointer mr-1"
+              >
                 {member.profile.name}
               </p>
               {/* 身份提示 */}
@@ -128,6 +153,7 @@ export const ChatItem = ({
               {timestamp}
             </span>
           </div>
+          {/* Img展示模块 */}
           {isImage && (
             <a
               href={fileUrl}
@@ -143,6 +169,7 @@ export const ChatItem = ({
               />
             </a>
           )}
+          {/* PDF展示模块 */}
           {isPDF && (
             <div className="relative flex items-center p-2 mt-2 rounded-md bg-background/10">
               <FileIcon className="h-10 w-10 fill-indigo-200 stroke-indigo-400" />
@@ -156,6 +183,7 @@ export const ChatItem = ({
               </a>
             </div>
           )}
+          {/* 消息内容区域 */}
           {!fileUrl && !isEditing && (
             <p
               className={cn(
@@ -165,6 +193,7 @@ export const ChatItem = ({
               )}
             >
               {content}
+              {/* 编辑后的消息显示(已更新) */}
               {isUpdated && !deleted && (
                 <span className="text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
                   (已更新)
@@ -172,6 +201,7 @@ export const ChatItem = ({
               )}
             </p>
           )}
+          {/* 编辑信息模块 */}
           {!fileUrl && isEditing && (
             <Form {...form}>
               <form
@@ -226,10 +256,12 @@ export const ChatItem = ({
           )}
           <ActionTooltip label="删除">
             <Trash
-              onClick={() => onOpen("deleteMessage", {
-                apiUrl: `${socketUrl}/${id}`,
-                query: socketQuery,
-              })}
+              onClick={() =>
+                onOpen("deleteMessage", {
+                  apiUrl: `${socketUrl}/${id}`,
+                  query: socketQuery,
+                })
+              }
               className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
             />
           </ActionTooltip>

@@ -5,7 +5,6 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 
 import { useSocket } from "@/hooks/use-socket"
 
-
 export const useChatQuery = ({
   queryKey,
   apiUrl,
@@ -46,6 +45,12 @@ export const useChatQuery = ({
       initialPageParam: undefined,
     })
 
+  // 返回数据
+  // 1. data: 数据
+  // 2. fetchNextPage: 获取下一页数据
+  // 3. hasNextPage: 是否有下一页数据
+  // 4. isFetchingNextPage: 是否正在获取下一页数据
+  // 5. status: 数据状态
   return {
     data,
     fetchNextPage,

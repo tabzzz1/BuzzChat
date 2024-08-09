@@ -4,6 +4,7 @@ import { db } from "@/lib/db"
 import { currentProfilePages } from "@/lib/current-profile-pages"
 import { MemberRole, Server } from "@prisma/client"
 
+// 更新（删除/编辑）消息
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponseServerIo

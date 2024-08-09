@@ -11,8 +11,9 @@ import { MessageWithMemberWithProfile } from "@/types/message-member-profile"
 import { formatDate } from "@/utils/format-date"
 import { useChatQuery } from "@/hooks/use-chat-query"
 import { useChatSocket } from "@/hooks/use-chat-socket"
+import { useChatScroll } from "@/hooks/use-chat-scroll"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, ElementRef } from "react"
 
 export const ChatMessages = ({
   name,
@@ -31,6 +32,9 @@ export const ChatMessages = ({
   const addKey = `chat:${serverId}:${channelId}:messages:add`
   const updateKey = `chat:${serverId}:${channelId}:messages:update`
 
+  const chatRef = useRef<ElementRef<"div">>(null)
+  const bottomRef = useRef<ElementRef<"div">>(null)
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
       queryKey,
@@ -41,15 +45,13 @@ export const ChatMessages = ({
 
   useChatSocket({ queryKey, addKey, updateKey })
 
-  // const messagesEndRef = useRef<HTMLDivElement>(null)
-  // const scrollToBottom = () => {
-  //   if (messagesEndRef.current) {
-  //     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-  //   }
-  // }
-  // useEffect(() => {
-  //   scrollToBottom()
-  // }, [data])
+  useChatScroll({
+    chatRef,
+    bottomRef,
+    shouldLoadMoreMessages: !isFetchingNextPage && hasNextPage,
+    loadMoreMessages: fetchNextPage,
+    count: data?.pages?.[0].items.length ?? 0,
+  })
 
   if (status === "pending") {
     return (
@@ -73,9 +75,24 @@ export const ChatMessages = ({
   }
 
   return (
-    <div className="flex-1 flex flex-col py-4 overflow-y-auto">
-      <div className="flex-1" />
-      <ChatWelcome name={name} type={type} />
+    <div ref={chatRef} className="flex-1 flex flex-col py-4 overflow-y-auto">
+      {!hasNextPage && <div className="flex-1" />}
+      {!hasNextPage && <ChatWelcome name={name} type={type} />}
+      {/* 加载圈 */}
+      {hasNextPage && (
+        <div className="flex justify-center">
+          {isFetchingNextPage ? (
+            <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />
+          ) : (
+            <button
+              onClick={() => fetchNextPage()}
+              className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 text-xs my-4"
+            >
+              加载更多消息...
+            </button>
+          )}
+        </div>
+      )}
       {/* 渲染消息 */}
       <div className="flex flex-col-reverse mt-auto">
         {data?.pages?.map((group, item) => (
@@ -100,6 +117,7 @@ export const ChatMessages = ({
         ))}
         {/* <div ref={messagesEndRef} /> */}
       </div>
+      <div ref={bottomRef} />
     </div>
   )
 }

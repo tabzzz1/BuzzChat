@@ -3,6 +3,7 @@ import { NextApiResponseServerIo } from "@/types/socket/NextApiResponseServerIo"
 import { currentProfilePages } from "@/lib/current-profile-pages"
 import { db } from "@/lib/db"
 
+// 添加消息
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponseServerIo

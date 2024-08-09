@@ -3,8 +3,8 @@ import { db } from "@/lib/db"
 import { Message } from "@prisma/client"
 import { NextResponse } from "next/server"
 
-// 设定每页消息容量为10
-const MESSAGE_CAPACITY = 10
+// 设定每页消息容量为12
+const MESSAGE_CAPACITY = 12
 
 export async function GET(req: Request) {
   try {

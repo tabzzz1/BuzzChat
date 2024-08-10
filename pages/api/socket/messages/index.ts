@@ -84,7 +84,7 @@ export default async function handler(
 
 
     //! 频道收到新消息时，通过socket.io发送消息
-    const addKey = `chat:${serverId}:${channelId}:messages:add`
+    const addKey = `chat:${channelId}:messages:add`
     res?.socket?.server?.io.emit(addKey, message)
 
     return res.status(200).json(message)

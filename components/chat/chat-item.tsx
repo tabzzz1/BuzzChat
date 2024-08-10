@@ -69,6 +69,7 @@ export const ChatItem = ({
     },
   })
   const isLoading = form.formState.isSubmitting
+  // 修改消息的提交事件
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
@@ -107,7 +108,7 @@ export const ChatItem = ({
       })
       return
     }
-    // 跳转到私聊窗口
+    // 跳转到私聊窗口(每个服务器中私聊是独立的)
     router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
   }
 

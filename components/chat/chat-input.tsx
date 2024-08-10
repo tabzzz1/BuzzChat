@@ -31,6 +31,7 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
   })
 
   const isLoading = form.formState.isSubmitting
+  // 输入信息提交表单处理逻辑
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // console.log(value)
     try {

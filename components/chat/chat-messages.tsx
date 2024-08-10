@@ -29,8 +29,8 @@ export const ChatMessages = ({
   //* chatId 为 channelId
   const { serverId, channelId } = socketQuery
   const queryKey = `chat:${serverId}:${channelId}`
-  const addKey = `chat:${serverId}:${channelId}:messages:add`
-  const updateKey = `chat:${serverId}:${channelId}:messages:update`
+  const addKey = `chat:${chatId}:messages:add`
+  const updateKey = `chat:${chatId}:messages:update`
 
   const chatRef = useRef<ElementRef<"div">>(null)
   const bottomRef = useRef<ElementRef<"div">>(null)

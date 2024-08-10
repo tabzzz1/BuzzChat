@@ -14,57 +14,62 @@ export default async function handler(
   }
   try {
     const profile = await currentProfilePages(req)
-    const { messageId, serverId, channelId } = req.query
+    const { directMessageId, conversationId } = req.query
     const { content } = req.body
     if (!profile) {
       return res.status(401).json({ error: "Unauthorized" })
     }
-    if (!serverId) {
-      return res.status(400).json({ error: "Server ID Missing" })
-    }
-    if (!channelId) {
-      return res.status(400).json({ error: "Channel ID Missing" })
+    if (!conversationId) {
+      return res.status(400).json({ error: "Conversation ID Missing" })
     }
 
-    // 查找相应服务器
-    const server = await db.server.findFirst({
+    // 查找相应对话
+    const conversation = await db.conversation.findFirst({
       where: {
-        id: serverId as string,
-        members: {
-          some: {
-            profileId: profile.id,
+        id: conversationId as string,
+        OR: [
+          {
+            memberOne: {
+              profileId: profile.id,
+            },
+          },
+          {
+            memberTwo: {
+              profileId: profile.id,
+            },
+          },
+        ],
+      },
+      include: {
+        memberOne: {
+          include: {
+            profile: true,
+          },
+        },
+        memberTwo: {
+          include: {
+            profile: true,
           },
         },
       },
-      include: {
-        members: true,
-      },
     })
-    if (!server) {
-      return res.status(404).json({ error: "Server Not Found" })
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found" })
     }
-    // 查找相应频道
-    const channel = await db.channel.findFirst({
-      where: {
-        id: channelId as string,
-        serverId: serverId as string,
-      },
-    })
-    if (!channel) {
-      return res.status(404).json({ error: "Channel Not Found" })
-    }
+
     // 确定当前用户成员信息
-    const member = server.members.find(
-      (member) => member.profileId === profile.id
-    )
+    const member =
+      conversation.memberOne.profileId === profile.id
+        ? conversation.memberOne
+        : conversation.memberTwo
     if (!member) {
       return res.status(404).json({ error: "Member Not Found" })
     }
     //
-    let message = await db.message.findFirst({
+    let directMessage = await db.directMessage.findFirst({
       where: {
-        id: messageId as string,
-        channelId: channelId as string,
+        id: directMessageId as string,
+        conversationId: conversationId as string,
       },
       include: {
         member: {
@@ -74,23 +79,23 @@ export default async function handler(
         },
       },
     })
-    if (!message || message.deleted) {
-      return res.status(404).json({ error: "Message Not Found" })
+    if (!directMessage || directMessage.deleted) {
+      return res.status(404).json({ error: "DirectMessage Not Found" })
     }
     //? 直接传入结果是不是更快一些？
-    const isCurrentMemberMessage = message.memberId === member.id
+    const isCurrentMemberMessage = directMessage.memberId === member.id
     const isAdmin = member.role === MemberRole.ADMIN
     const isModerator = member.role === MemberRole.MODERATOR
-    const allowDeleteOrEdit  = isCurrentMemberMessage || isAdmin || isModerator
+    const allowDeleteOrEdit = isCurrentMemberMessage || isAdmin || isModerator
     if (!allowDeleteOrEdit) {
       return res.status(401).json({ error: "Unauthorized" })
     }
     //! DELETE(Delete)
     if (req.method === "DELETE") {
       //! 这里选择update而不是delete是因为选择更新了数据库中的content以便渲染
-      message = await db.message.update({
+      directMessage = await db.directMessage.update({
         where: {
-          id: messageId as string,
+          id: directMessageId as string,
         },
         data: {
           fileUrl: null,
@@ -109,12 +114,12 @@ export default async function handler(
     //! PATCH(Edit)
     if (req.method === "PATCH") {
       // 只有当前成员自己可以进行消息更改
-      if(!isCurrentMemberMessage) {
+      if (!isCurrentMemberMessage) {
         return res.status(401).json({ error: "Unauthorized" })
       }
-      message = await db.message.update({
+      directMessage = await db.directMessage.update({
         where: {
-          id: messageId as string,
+          id: directMessageId as string,
         },
         data: {
           content,
@@ -130,10 +135,10 @@ export default async function handler(
     }
 
     //! 消息手动删除/编辑时，需要更新频道的最后消息
-    const updateKey = `chat:${channelId}:messages:update`
-    res?.socket?.server?.io.emit(updateKey, message)
+    const updateKey = `chat:${conversation.id}:messages:update`
+    res?.socket?.server?.io.emit(updateKey, directMessage)
 
-    return res.status(200).json(message)
+    return res.status(200).json(directMessage)
   } catch (error) {
     console.log("[MESSAGE_PATCH]", error)
     return res.status(500).json({ error: "Internal Error" })

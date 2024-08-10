@@ -31,6 +31,8 @@ emoji-mart
 react-query
 date-fns
 
+LiveKit
+
 ## 战役日志
 
 ## 汇报规范

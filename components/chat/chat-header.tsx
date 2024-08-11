@@ -4,6 +4,7 @@ import { Hash } from "lucide-react"
 
 import { ChatHeaderProps } from "@/types/chat/chat-header"
 import { UserAvatar } from "@/components/user-avatar"
+import { ChatVideoButton } from "./chat-video-button"
 
 export const ChatHeader = ({
   serverId,
@@ -26,6 +27,10 @@ export const ChatHeader = ({
       <p className="font-semibold text-black dark:text-white">{name}</p>
       {/* 状态标识 */}
       <div className="ml-auto flex items-center">
+        {/* 私聊对话添加视频标识 */}
+        {type === "conversation" && (
+          <ChatVideoButton />
+        )}
         <SocketStatus />
       </div>
     </div>

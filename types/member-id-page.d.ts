@@ -1,6 +1,9 @@
 export interface MemberIdPageProps {
   params: {
-    memberId: string,
+    memberId: string
     serverId: string
+  }
+  searchParams: {
+    video?: boolean
   }
 }

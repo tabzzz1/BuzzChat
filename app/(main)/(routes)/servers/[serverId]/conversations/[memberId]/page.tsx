@@ -1,6 +1,8 @@
 import { ChatHeader } from "@/components/chat/chat-header"
 import { ChatMessages } from "@/components/chat/chat-messages"
 import { ChatInput } from "@/components/chat/chat-input"
+import { MediaRoom } from "@/components/media-room"
+import { Fragment } from "react"
 
 import { MemberIdPageProps } from "@/types/member-id-page"
 
@@ -12,6 +14,7 @@ import { redirect } from "next/navigation"
 
 const MemberIdPage = async ({
   params: { memberId, serverId },
+  searchParams: { video },
 }: MemberIdPageProps) => {
   const profile = await currentProfile()
   if (!profile) {
@@ -48,23 +51,34 @@ const MemberIdPage = async ({
         type="conversation"
         imageUrl={otherMember.profile.imageUrl}
       />
-      <ChatMessages
-        name={otherMember.profile.name}
-        member={currentMember}
-        chatId={conversation.id}
-        type="conversation"
-        apiUrl="/direct-messages"
-        socketUrl="/socket/direct-messages"
-        socketQuery={{ conversationId: conversation.id }}
-        paramKey="conversationId"
-        paramValue={conversation.id}
-      />
-      <ChatInput 
-        name={otherMember.profile.name} 
-        apiUrl="/socket/direct-messages" 
-        type="conversation"
-        query={{conversationId: conversation.id}}
-      />
+      {!video && (
+        <Fragment>
+          <ChatMessages
+            name={otherMember.profile.name}
+            member={currentMember}
+            chatId={conversation.id}
+            type="conversation"
+            apiUrl="/direct-messages"
+            socketUrl="/socket/direct-messages"
+            socketQuery={{ conversationId: conversation.id }}
+            paramKey="conversationId"
+            paramValue={conversation.id}
+          />
+          <ChatInput
+            name={otherMember.profile.name}
+            apiUrl="/socket/direct-messages"
+            type="conversation"
+            query={{ conversationId: conversation.id }}
+          />
+        </Fragment>
+      )}
+      {video && (
+        <MediaRoom 
+          chatId={conversation.id} 
+          video={true} 
+          audio={true} 
+        />
+      )}
     </div>
   )
 }

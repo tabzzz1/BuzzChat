@@ -1,13 +1,17 @@
 "use client"
 
-import { LiveKitRoom, VideoConference } from "@livekit/components-react"
+import {
+  LiveKitRoom,
+  VideoConference,
+  AudioConference,
+} from "@livekit/components-react"
 import { MediaRoomProps } from "@/types/media-room"
 import "@livekit/components-styles"
 
 import { useEffect, useState } from "react"
-import { Channel } from "@prisma/client"
 import { useUser } from "@clerk/nextjs"
 import { Loader2 } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
   const { user } = useUser()
@@ -41,15 +45,26 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
   }
 
   return (
-    <LiveKitRoom
-      data-lk-theme="default" // 默认主题
-      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // livekit 服务器地址
-      connect={true} // 是否自动连接
-      token={token}
-      video={video}
-      audio={audio}
+    <div
+      className={cn(
+        "flex flex-1",
+        (video && audio) ? "overflow-y-hidden" : ""
+      )}
     >
-      <VideoConference />
-    </LiveKitRoom>
+      <LiveKitRoom
+        data-lk-theme="default" // 默认主题
+        serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // livekit 服务器地址
+        connect={true} // 是否自动连接
+        token={token}
+        video={video}
+        audio={audio}
+      >
+        
+        {/* 音频 */}
+        {audio && !video && <AudioConference />}
+        {/* 视频 */}
+        {video && audio && <VideoConference />}
+      </LiveKitRoom>
+    </div>
   )
 }

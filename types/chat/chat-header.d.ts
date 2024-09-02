@@ -12,4 +12,6 @@ export interface ChatHeaderProps {
   name: string,
   type: "channel" | "conversation",
   imageUrl?: string,
+  video?: boolean
+  audio?: boolean
 }

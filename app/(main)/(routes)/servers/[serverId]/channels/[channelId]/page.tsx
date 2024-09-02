@@ -38,7 +38,11 @@ const ChannelIdPage = async ({
 
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
-      <ChatHeader serverId={serverId} name={channel.name} type="channel" />
+      <ChatHeader 
+        serverId={serverId} 
+        name={channel.name} 
+        type="channel" 
+      />
       {/* 文字频道 */}
       {channel.type === ChannelType.TEXT && (
         <Fragment>

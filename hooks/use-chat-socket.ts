@@ -9,14 +9,15 @@ export const useChatSocket = ({
   updateKey,
   queryKey,
 }: ChatSocketProps) => {
+  // 解构出socket实例对象
   const { socket } = useSocket()
   const queryClient = useQueryClient()
 
   useEffect(() => {
     if (!socket) return
-
+    // 为updateKey设置事件监听器
     socket.on(updateKey, (message: MessageWithMemberWithProfile) => {
-      //
+      // 更新缓存数据
       queryClient.setQueryData([queryKey], (oldData: any) => {
         // 如果没有数据，直接返回
         if (!oldData || !oldData.pages || oldData.pages.length === 0) {
@@ -41,7 +42,7 @@ export const useChatSocket = ({
         }
       })
     })
-
+    // 为addKey设置事件监听器
     socket.on(addKey, (message: MessageWithMemberWithProfile) => {
       queryClient.setQueryData([queryKey], (oldData: any) => {
         // 如果没有数据，直接返回

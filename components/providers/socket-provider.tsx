@@ -19,13 +19,16 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         addTrailingSlash: false,
       }
     )
-    // 
+    // 注册事件监听器
+    // 当socket连接成功后修改isConnected的状态
     socketInstance.on("connect", () => {
       setIsConnected(true)
     })
+    // 当socket断开连接后修改isConnected的状态
     socketInstance.on("disconnect", () => {
       setIsConnected(false)
     })
+    // 将实例存储至组件状态中
     setSocket(socketInstance)
 
     return () => {

@@ -1,144 +1,123 @@
-# HappyChatVideo
+# BuzzChat
 
-## 厉兵粟马
+## 项目简介
 
-## 进军路线
+`BuzzChat`是一个多功能在线社交平台，集文字聊天、语音通话和视频互动于一体。你可以在服务器中与朋友们聊天，也可以单开窗口进行一对一的互动。无论是与朋友交流、团队协作，还是建立自己的社群，`BuzzChat`都能为你提供轻松愉快的沟通体验
 
-## 援兵助战
+UI参考Discord，曾用HappyChatVideo
 
-⚛️ **React & Frameworks**
+## 技术栈
 
-- **Next.js** 🌐
-- **React** ⚛️
-- **React-Hook-Form** 📋
-- **React Query** 🔍
+- 前端部分：React + Next.js
+- 构建工具：Vite
+- 编程语言：TypeScript
+- 样式与组件库：Tailwind CSS、shadcn/ui
+- ORM：Prisma
+- 数据及状态管理：React-Query、Zustand
+- 用户认证与文件上传：Clerk、Uploadthing
+- 实时通讯：Socket.io、Livekit
 
-🎨 **UI & Styling**
+## 运行程序
 
-- **Tailwind CSS** 🎨
-- **ShadCN** 🖌️
+### 安装依赖
 
-🛡️ **Authentication & Validation**
+```powershell
+# npm
+npm i --registry=https://registry.npmmirror.com
 
-- **Clerk** 🔐
-- **Zod** 🛡️
+# pnpm
+pnpm i --registry=https://registry.npmmirror.com
+```
 
-🗄️ **Database & ORM**
+### 添加环境
 
-- **Prisma** 🗄️
+在项目中创建`.env`文件，按照如下格式配置自己的`env`
 
-🔄 **State Management**
+```plaintext
+# Clerk API Keys
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_YOUR_CLERK_PUBLISHABLE_KEY
+CLERK_SECRET_KEY=sk_test_YOUR_CLERK_SECRET_KEY
 
-- **Zustand** 🐻
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_AFTER_SIGN_OUT_URL=/
 
-📦 **Utilities & Helpers**
+# Prisma Database URL (PostgreSQL)
+DATABASE_URL="postgresql://<DB_USER>:<DB_PASSWORD>@<DB_HOST>/<DB_NAME>?sslmode=require"
 
-- **axios** 📡
-- **uuid** 🔑
-- **query-string** 🔗
-- **date-fns** 🗓️
+# Uploadthing keys
+UPLOADTHING_SECRET=sk_live_YOUR_UPLOADTHING_SECRET
+UPLOADTHING_APP_ID=YOUR_UPLOADTHING_APP_ID
 
-🖼️ **File Uploads**
+# Site URL
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
-- **uploadthing** 🖼️
+# Livekit API
+LIVEKIT_API_KEY=YOUR_LIVEKIT_API_KEY
+LIVEKIT_API_SECRET=YOUR_LIVEKIT_API_SECRET
+NEXT_PUBLIC_LIVEKIT_URL=wss://your-livekit-url
+```
 
-😀 **Emojis**
+将`=`后替换为自己的密钥，相关内容在`#`后有标注
 
-- **@emoji-mart/data** 😀
-- **@emoji-mart/react** 😊
-- **emoji-mart** 😎
+### 运行程序
 
-🗣️ **Real-time Communication**
+```powershell
+#npm 
+npm run dev
 
-- **Socket.io** 💬
-- **Socket.io-client** 🗣️
-- **LiveKit** 🎥
+# pnpm
+pnpm run dev
+```
 
-🧑‍💻 **Tools & CLI**
+## 项目结构
 
-- **Neno** 🛠️
+```LUA
+.
+├── .env
+├── .eslintrc.json
+├── .gitignore
+├── .next/
+│   ├── app-build-manifest.json
+│   ├── build-manifest.json
+│   ├── cache/
+│   ├── package.json
+│   ├── react-loadable-manifest.json
+│   ├── server/
+│   ├── static/
+│   ├── trace
+│   └── types/
+├── app/
+│   ├── (auth)/
+│   ├── (invite)/
+│   ├── (main)/
+│   ├── (setup)/
+│   ├── api/
+│   ├── globals.css
+│   └── layout.tsx
+├── components/
+│   └── ...
+├── docs/
+│   └── README.md
+├── hooks/
+│   └── ...
+├── lib/
+├── LICENSE
+├── middleware.ts
+├── next-env.d.ts
+├── next.config.mjs
+├── package.json
+├── pages/
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── prisma/
+├── public/
+├── README.md
+├── stores/
+├── tailwind.config.ts
+├── tsconfig.json
+├── types/
+└── utils/
+```
 
-
-## 战役日志
-
-### 2024.7.9
-
-掌握了相关`Next.js`的知识后，周师傅按耐不住了，摩拳擦掌准备做一个有难度的项目，因此我迈出了沉重的一步——创建`Next.js`的项目。
-
-在创建的时候，考虑到很多技术只是看了文档和相关视频，并没有一个完备的机会去进行尝试，所以我决心尝试一些当下热门的技术，使用规范的最佳实践来构建项目。
-
-### 2024.7.11
-
-登录方面采用了`Clerk`，我只想吐槽一下，对于本人这种一般不是很好的人来说，全部的英文文档真的很不友好。不过不得不说在使用`Clerk`进行登录校验的时候，深刻的体会到了`Clerk`的丰富和全面，同时也锻炼了自己阅读英文文档的能力。
-
-因为这次的练习主要是想体会`Next`做为全栈工具的便捷，所以并没有花费时间去专门写后端...
-
-### 2024.7.13
-
-第一次了解到了`ORM`，使用了`Prisma`做为`ORM`，因为之前有写`SQLite`的经验，所以在了解了`ORM`的概念后，上手`Prisma`还比较（对，是比较）轻松。因为有`ts`的加持，所以`Prisma`可以很有效的在我操作数据库的时候，避免我手残打错字母，是的，这让我非常爽
-
-也使用了`Neon`的云端服务器来和`Prisma`连接，只能说速度很快
-
-### 2024.7.14
-
-果然使用一些免费提供的云端存储很方便，不过我真的要考虑找时间自己复习一下文件上传、下载和渲染的优化了...
-
-### 2024.7.16
-
-服务器导航栏完工，在一个组件中不知道为什么加上了`hidden`样式，导致我一直没找到到底是什么原因组件得不到渲染（起初我是以为客户端渲染`"use client"`的问题），试了好多错，最后看到一个`hidden`，我真的是为自己的粗心付出了很多时间。
-
-### 2024.7.28
-
-出去high了几天，回来继续投身到这个项目中。
-
-在`server-header`组件的接收参数的类型设计的时候，我设定`ServerHeaderProps`接口的`server`属性为`Prisma`所定义生成的`Server`类型，在我将所需值通过`server-header`的父组件`server-sidebar`传入后，在使用传入对象的具体值时，编辑器会报错，看着很不舒服。所以最后我将上述类型接口的`server`属性为全新定义的`ServerWithMembersWithProfile`类型，在这里根据组件中拼接的内容组合定义了全新的类型以便后续使用时，编辑器不会出现无法查找到特定对象下内容的报错问题。
-
-是的，我觉得很爽...
-
-### 2024.7.31
-
-零零碎碎拼拼凑凑把左侧服务器栏以及附带的频道栏的功能都做好了，唯一让我头疼的是`KeyBoard`操作唤起搜索栏（可以搜索频道/成员）时，展开的搜索栏居然无法使用鼠标直接进行`Click`操作，而是需要按键盘的`↑`和`↓`选择，按`Enter`进行确认选择，这太抽象了。
-
-在`shadcn`的源码跳来跳去，文档翻来翻去都没有找到问题，还是决定先放一放，后续再研究一下😿
-
-### 2024.8.2
-
-从今天开始着手去做右侧的内容区域（对话/视频区域），一定程度上考虑到了屏幕缩放适配的问题，果断选择在导航栏上添加了一个平滑的移动按钮，真的是越来越喜欢`shadcn`了
-
-### 2024.8.4
-
-这是我第一次正式上手尝试`socket.io`，
-
-### 2024.8.9
-
-完善了`chat-messages`组件中的消息更新和加载的逻辑。
-
-其实到现在已经过去了一个月，仔细想一下确实了解到了很多的`Next`知识，也对`React`和`Vue`的实际操作、使用场景等有了一点个人的看法（因为我是先学的Vue23然后才开始学习React），同时也感受到了`Web`领域中的知识是极度丰富的，只能说学无止境呀
-
-### 2024.8.10
-
-整个项目到这里已经实现了基本的功能，包括主要的`聊天`、`语音通话`以及`视频通话`，在开发的过程中我发现了很多值得去考究的点，大多数的*新点子*我都尽可能的去记录，后续如果有时间的话我会规整的将这个项目进行优化。
-
-### 写给自己
-
-> 每当完成一个项目或处理一些持续时间较长的琐事后，我总会不由自主地陷入片刻的沉思。尽管这种沉思的时间不会太长，但我总会留给自己一点空间，去回顾自己在这件事情中的表现。仿佛这短暂的停留，是与自己的内心对话，是对这段经历的重新审视和思考。当你意识到每一次努力都在推动你向前时，那种力量会让你更加坚定地面对前方的挑战。
-
-写下这段话不是煽情，是我觉得，人总要给未来的自己留点什么回忆。如果以后我再次看到当时自己的项目，看到自己写的话，相信会有一番独特的感悟...
-
-祝大伙天天开心
-
-
-## 军中无戏言
-
-1. 在`server-section`中，添加频道的逻辑不合适，直接从文本频道的添加项就可以直接添加语音频道，后续要进行优化
-2. `server-channel`和`server-member`中图标使用方式不一致，后续可以重构以下，统一标准
-3. `*-modal`中有些存在焦点默认全选相应文字，后续要进行优化
-4. 探寻将`@pages/api/socket/io.ts`的服务器内容迁移至`@/app/api/socket/io/route.ts`
-5. 优化`chat-messages`，将当前成员的聊天`item`放在右侧，优化使用体验
-6. 设计之初，不同服务器中的成员私聊是独立的，但是目前出现在`a`服务器中的成员私聊聊天内容会在`b`服务器中的私聊聊天内容里，闪烁一下，后续要进行优化，查找问题
-
-## 解甲归田
-
-1. 频道在线人数
-2. 主题多样性
-3. 多语言切换
